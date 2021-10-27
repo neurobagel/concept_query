@@ -1,3 +1,5 @@
+import json
+
 import requests
 from requests.auth import HTTPBasicAuth
 
@@ -45,6 +47,7 @@ DOG_DB = 'demo_integration'
 DOG_PORT = 5820
 QUERY_URL = f'{DOG_ROOT}:{DOG_PORT}/{DOG_DB}/query'
 QUERY_HEADER = {'Content-Type': 'application/sparql-query', 'Accept': 'application/sparql-results+json'}
+QUERY_AUTH = HTTPBasicAuth('admin', 'admin')
 
 AGE_VAR = 'age'
 AGE_REL = 'nidm:hasAge'
@@ -115,3 +118,18 @@ def create_query(age: tuple = (None, None),
     query = '\n'.join([q_preamble, q_body, filter_body, '}'])
 
     return query
+
+
+def process_query(query_str: str) -> str:
+    """
+    :param query_str: the preformatted query string
+    :type query_str: str
+    :return: The processed return of the query
+    :rtype:
+    """
+    response = requests.post(url=QUERY_URL, data=query_str, headers=QUERY_HEADER, auth=QUERY_AUTH)
+    if not response.ok:
+        raise Exception(f"Query request unsuccesful ({response.status_code}): {response.content.decode('utf-8')}")
+
+    _results = json.loads(response.content.decode('utf-8'))
+    return [{k: v['value'] for k, v in res.items()} for res in _results['results']['bindings']]
