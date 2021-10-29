@@ -5,8 +5,12 @@ name = "pypi"
 
 [packages]
 django = "*"
+requests = "*"
+django-crispy-forms = "*"
+crispy-bootstrap5 = "*"
 
 [dev-packages]
+pytest = "*"
 
 [requires]
 python_version = "3.9"
