@@ -66,23 +66,23 @@ PROJECT_REL = 'nidm:isPartOfProject'
 def create_query(age: tuple = (None, None),
                  gender: str = None,
                  image: str = None,
-                 diagnosis: str=None,
-                 tool:str =None) -> str:
+                 diagnosis: str = None,
+                 tool: str = None) -> str:
     """
-    :param age: an age range to query
-    :type age: tuple
-    :param gender: the gender value to search for
-    :type gender: str
-    :param image: the imaging modality to search for
-    :type image: str
-    :param diagnosis: the diagnosis to search for
-    :type diagnosis: str
-    :param tool:
-    :type tool:
-    :return: the completed query string
-    :rtype: str
+
+    Parameters
+    ----------
+    age :
+    gender :
+    image :
+    diagnosis :
+    tool :
+
+    Returns
+    -------
+
     """
-    select_str = ''
+    # select_str = ''
     q_body = ''
     filter_body = ''
     if age is not None or not age == (None, None):
@@ -109,7 +109,7 @@ def create_query(age: tuple = (None, None),
     WHERE {{
         ?siri a prov:Person.
         ?siri {PROJECT_REL} ?{PROJECT_VAR}.
-        
+
         ?{PROJECT_VAR} a nidm:Project;
             dctypes:title ?projectname;
             prov:Location ?project_location .
@@ -122,10 +122,14 @@ def create_query(age: tuple = (None, None),
 
 def process_query(query_str: str) -> str:
     """
-    :param query_str: the preformatted query string
-    :type query_str: str
-    :return: The processed return of the query
-    :rtype:
+
+    Parameters
+    ----------
+    query_str :
+
+    Returns
+    -------
+
     """
     response = requests.post(url=QUERY_URL, data=query_str, headers=QUERY_HEADER, auth=QUERY_AUTH)
     if not response.ok:
