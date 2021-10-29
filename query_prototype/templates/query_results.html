@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block query_fields %}
+
+<form>
+
+    <!-- Query fields -->
+
+    <!-- Query button -->
+    <div class="row">
+        <button class="btn btn-primary" type="submit">Query Metadata</button>
+    </div>    
+
+    <!-- Age range -->
+    <div class="row">
+        <label for="ageRangeInputGroup" class="form-label">Age</label>
+        <div class="input-group" id="ageRangeInputGroup">
+            <input type="text" class="form-control" value="{{ query.age_lower }}">
+            <div class="input-group-prepend">
+                <span class="input-group-text">&nbsp;-&nbsp;</span>
+            </div>
+            <input type="text" class="form-control" value="{{ query.age_upper }}">
+        </div> 
+    </div>
+
+    <!-- Gender -->
+    <div class="row">
+        <label for="genderSelect" class="form-label">Gender</label>
+        <select id="genderSelect" class="form-select" aria-label="gender">
+            <option selected>{{ query.gender }}</option>
+            {% for option in fields.gender %}
+                {% if option != query.gender }
+                    <option value="{{ forloop.counter }}">{{ option }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+        
+    <!-- Modality -->
+    <div class="row">
+        <label for="modalitySelect" class="form-label">Modality</label>
+        <select id="modalitySelect" class="form-select" multiple aria-label="multiple select modality">
+            <option selected>{{ query.modality }}</option>
+            {% for option in fields.modality %}
+                {% if option != query.modality %}
+                    <option value="{{ forloop.counter }}">{{ option }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>                     
+        
+    <!-- Diagnosis -->
+    <div class="row">
+        <label for="diagnosisTextbox" class="form-label">Diagnosis</label>
+        <input type="text" class="form-control" id="diagnosisTextbox" value="{{ query.diagnosis }}">
+    </div>
+
+    <!-- Is control? -->
+    <div class="col">
+        <label for="isControlSelect" class="form-label">Is control</label>
+        <select id="isControlSelect" class="form-select" aria-label="All">
+            <option selected>{{ query.is_control }}</option>
+            {% for option in fields.is_control %}
+                {% if option != query.is_control %}
+                    <option value="{{ forloop.counter }}">{{ option }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    {% endblock %}
+
+{% block query_results %}
+
+    {% if results_list|length > 1 %}
+
+        <label for="resultsListGroup" class="form-label">Results</label>
+        <ul class="list-group" id="resultsListGroup">
+            {% for result in results_list %}
+                <li class="list-group-item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ result.title }}</h5>
+                            <p class="card-text">{{ result.description }}</p>
+                            <a data-bs-toggle="collapse" href="#collapseExample{{ forloop.counter }}" class="btn btn-primary">Show subjects</a>
+                            <div class="collapse" id="collapseExample{{ forloop.counter }}">
+                                <div class="card card-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">id</th>
+                                                <th scope="col">age</th>
+                                                <th scope="col">gender</th>
+                                                <th scope="col">modality</th>
+                                                <th scope="col">diagnosis</th>
+                                                <th scope="col">is_control</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                {% for subject in result.subjects %}
+                                                    <th scope="row">{{ subject.id }}</th>
+                                                    <td>{{ subject.age }}</td>
+                                                    <td>{{ subject.gender }}</td>
+                                                    <td>{{ subject.modality }}</td>
+                                                    <td>{{ subject.diagnosis }}</td>
+                                                    <td>{{ subject.is_control}}</td>
+                                                {% endfor %}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h3>No results</h3>
+    {% endif %}
+
+{% endblock %}

@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import os
+import sys
 
 from pathlib import Path
 
@@ -34,11 +36,20 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    # 'django.contrib.sessions',
+    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'query-prototype'
+    'query_prototype',
+    'crispy_forms',
+    'crispy_bootstrap5'
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# sys.path.append(os.path.join(PROJECT_ROOT, 'concept_query_demo'))
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

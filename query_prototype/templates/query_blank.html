@@ -1,0 +1,77 @@
+{% extends 'form.html' %}
+
+{% block query_fields %}
+
+<form>
+
+    <!-- Query fields -->
+
+    <!-- Query button -->
+    <div class="row">
+        <button class="btn btn-primary" type="submit">Query Metadata</button>
+    </div>    
+
+    <!-- Age range -->
+    <div class="row">
+        <label for="ageRangeInputGroup" class="form-label">Age</label>
+        <div class="input-group" id="ageRangeInputGroup">
+            <input type="text" class="form-control">
+            <div class="input-group-prepend">
+                <span class="input-group-text">&nbsp;-&nbsp;</span>
+            </div>
+            <input type="text" class="form-control">
+        </div> 
+    </div>
+
+    <!-- Gender -->
+    <div class="row">
+        <label for="genderSelect" class="form-label">Gender</label>
+        <select id="genderSelect" class="form-select" aria-label="gender">
+            <option selected>{{ form.gender.0 }}</option>
+            {% for option in form.gender %}
+                {% if forloop.counter != form.gender.0 %}
+                    <option value="1">{{ option }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+        
+    <!-- Modality -->
+    <div class="row">
+        <label for="modalitySelect" class="form-label">Modality</label>
+        <select id="modalitySelect" class="form-select" multiple aria-label="multiple select modality">
+            <option selected>{{ form.modality.0 }}</option>
+            {% for option in form.modality %}
+                {% if forloop.counter != 0 %}
+                    <option value="1">{{ option }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>                     
+        
+    <!-- Diagnosis -->
+    <div class="row">
+        <label for="diagnosisTextbox" class="form-label">Diagnosis</label>
+        <input type="text" class="form-control" id="diagnosisTextbox">
+    </div>
+
+    <!-- Is control? -->
+    <div class="col">
+        <label for="isControlSelect" class="form-label">Is control</label>
+        <select id="isControlSelect" class="form-select" aria-label="All">
+            <option selected>{{ form.is_control.0 }}</option>
+            {% for option in form.is_control %}
+                {% if forloop.counter != 0 %}
+                    <option value="1">{{ option }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    {% endblock %}
+
+{% block query_results %}
+
+    <h3>Click 'Query Metadata' for results</h3>
+
+{% endblock %}

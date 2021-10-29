@@ -1,3 +1,9 @@
+# Imports
+
+# Third party
 from django.contrib import admin
 
-# Register your models here.
+# Custom
+from .models import QueryFieldsModel
+
+admin.site.register(QueryFieldsModel)
