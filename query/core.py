@@ -86,23 +86,30 @@ def create_query(age: tuple = (None, None),
     q_body = ''
     filter_body = ''
     if age is not None or not age == (None, None):
-        q_body += '\n' + f'OPTIONAL {{?siri {AGE_REL} ?{AGE_VAR} }}'
-        select_str += f' ?{AGE_VAR}'
+        # select_str += f' ?{AGE_VAR}'
         filter_body += '\n' + f'FILTER (?{AGE_VAR} > {age[0]} && ?{AGE_VAR} < {age[1]}).'
+    q_body += '\n' + f'OPTIONAL {{?siri {AGE_REL} ?{AGE_VAR} }}'
+
     if gender is not None:
-        q_body += '\n' + f'OPTIONAL {{?siri {GENDER_REL} ?{GENDER_VAR} }}'
-        select_str += f' ?{GENDER_VAR}'
-        filter_body += '\n' + f'FILTER (?{GENDER_VAR} == "{gender}").'
+        # select_str += f' ?{GENDER_VAR}'
+        filter_body += '\n' + f'FILTER (?{GENDER_VAR} = "{gender}").'
+    q_body += '\n' + f'OPTIONAL {{?siri {GENDER_REL} ?{GENDER_VAR} }}'
+
     if image is not None:
-        q_body += '\n' + f'OPTIONAL {{?siri {IMAGE_REL} ?{IMAGE_VAR} }}'
-        select_str += f' ?{IMAGE_VAR}'
-        filter_body += '\n' + f'FILTER (?{IMAGE_VAR} == "{image}").'
+        # select_str += f' ?{IMAGE_VAR}'
+        filter_body += '\n' + f'FILTER (?{IMAGE_VAR} = {image}).'
+    q_body += '\n' + f'OPTIONAL {{?siri {IMAGE_REL} ?{IMAGE_VAR} }}'
+
     if diagnosis is not None:
-        q_body += '\n' + f'OPTIONAL {{?siri {DIAGNOSIS_REL} ?{DIAGNOSIS_VAR} }}'
-        select_str += ' ?diagnosis'
-        filter_body += '\n' + f'FILTER (?{DIAGNOSIS_VAR} == "{diagnosis}").'
+        # select_str += ' ?diagnosis'
+        filter_body += '\n' + f'FILTER (?{DIAGNOSIS_VAR} = <{diagnosis}>).'
+    q_body += '\n' + f'OPTIONAL {{?siri {DIAGNOSIS_REL} ?{DIAGNOSIS_VAR} }}'
+
     if tool is not None:
         pass
+
+    # Temporary override
+    select_str = '?age ?gender ?image ?diagnosis'
 
     q_preamble = DEFAULT_CONTEXT + f'''
     SELECT DISTINCT ?open_neuro_id ?siri {select_str} 
