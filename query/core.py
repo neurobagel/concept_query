@@ -69,7 +69,7 @@ def create_query(age: tuple = (None, None),
     return query
 
 
-def process_query(query_str: str) -> str:
+def process_query(query_str: str) -> list:
     """
 
     Parameters
@@ -82,7 +82,7 @@ def process_query(query_str: str) -> str:
     """
     response = requests.post(url=constants.QUERY_URL, data=query_str, headers=constants.QUERY_HEADER, auth=constants.QUERY_AUTH)
     if not response.ok:
-        raise Exception(f"Query request unsuccesful ({response.status_code}): {response.content.decode('utf-8')}")
+        raise Exception(f"Query request unsuccessful ({response.status_code}): {response.content.decode('utf-8')}")
 
     _results = json.loads(response.content.decode('utf-8'))
     return [{k: v['value'] for k, v in res.items()} for res in _results['results']['bindings']]
