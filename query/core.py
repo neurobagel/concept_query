@@ -9,7 +9,8 @@ def create_query(age: tuple = (None, None),
                  gender: str = None,
                  image: str = None,
                  diagnosis: str = None,
-                 tool: str = None) -> str:
+                 tool: str = None,
+                 control: bool = False) -> str:
     """
 
     Parameters
@@ -42,10 +43,15 @@ def create_query(age: tuple = (None, None),
         filter_body += '\n' + f'FILTER (?{constants.IMAGE.var} = {image}).'
     q_body += '\n' + f'OPTIONAL {{?siri {constants.IMAGE.rel} ?{constants.IMAGE.var} }}'
 
-    if diagnosis is not None and not diagnosis == '':
+    if diagnosis is not None and not diagnosis == '' and not control:
         # select_str += ' ?diagnosis'
         filter_body += '\n' + f'FILTER (?{constants.DIAGNOSIS.var} = <{diagnosis}>).'
     q_body += '\n' + f'OPTIONAL {{?siri {constants.DIAGNOSIS.rel} ?{constants.DIAGNOSIS.var} }}'
+
+    if control:
+        # We are searching for this graph pattern but we do not return it to the user
+        # TODO: revisit this decision. Maybe we want to return the control status to the user
+        q_body += '\n' + f'?siri {constants.CONTROL.rel} ?{constants.CONTROL.var} .'
 
     if tool is not None:
         pass

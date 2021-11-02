@@ -69,7 +69,7 @@ DIAGNOSIS = Domain('diagnosis', 'nidm:hasDiagnosis')
 IMAGE = Domain('image', 'nidm:hadImageContrastType')
 TOOL = Domain('tool', '')
 PROJECT = Domain('project', 'nidm:isPartOfProject')
-CONTROL = Domain('control', 'nidm:isSubjectGroup')
+CONTROL = Domain('nidm:Control', 'nidm:isSubjectGroup')
 
 CATEGORICAL_DOMAINS = [
     GENDER,
