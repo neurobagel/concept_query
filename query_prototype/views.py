@@ -86,14 +86,14 @@ def get_manual_results():
 
     return query_results
 
-def get_correct_results():
+def get_correct_results(p_form):
 
     # a. Create a SPARQL query string with the query fields
     sparql_query = create_query(
-        (form.cleaned_data["age_lower"], form.cleaned_data["age_upper"]),
-        form.cleaned_data["gender"],
-        form.cleaned_data["modality"],
-        form.cleaned_data["diagnosis"],
+        (p_form.cleaned_data["age_lower"], p_form.cleaned_data["age_upper"]),
+        p_form.cleaned_data["gender"],
+        p_form.cleaned_data["modality"],
+        p_form.cleaned_data["diagnosis"],
         "" )
 
     print("SPARQL QUERY")
@@ -148,13 +148,15 @@ def formgenerated_query(request):
             if not query_results:
 
                 # Mock results (NOTE: To be removed)
-                query_results = get_mock_results()
+                # query_results = get_mock_results()
 
                 # Manually prepared results
                 # query_results = get_manual_results()
 
                 # Correct flow
-                # query_results = get_correct_results()
+                query_results = get_correct_results(form)
+                # with open(os.getcwd() + os.sep + "correct_results.json", "w") as output_file:
+                #     json.dump(query_results, output_file)
 
                 # Solution for adding extra fields to the database:
                 # https://stackoverflow.com/questions/58642207/save-extra-fields-to-django-model-apart-from-the-fields-which-were-present-in-dj
