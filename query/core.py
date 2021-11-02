@@ -51,7 +51,7 @@ def create_query(age: tuple = (None, None),
         pass
 
     # Temporary override
-    select_str = '?age ?gender ?image ?diagnosis'
+    select_str = '?age ?gender ?image ?diagnosis ?dataset_id ?title ?description'
 
     q_preamble = constants.DEFAULT_CONTEXT + f'''
     SELECT DISTINCT ?open_neuro_id ?siri {select_str} 
@@ -60,9 +60,10 @@ def create_query(age: tuple = (None, None),
         ?siri {constants.PROJECT.rel} ?{constants.PROJECT.var}.
 
         ?{constants.PROJECT.var} a nidm:Project;
-            dctypes:title ?projectname;
+            dctypes:title ?title;
             prov:Location ?project_location .
-        BIND( strafter(?project_location,"openneuro/") AS ?open_neuro_id ) .
+        OPTIONAL {{ ?{constants.PROJECT.var} dctypes:description ?description;}}
+        BIND( strafter(?project_location,"openneuro/") AS ?dataset_id ) .
     '''
     query = '\n'.join([q_preamble, q_body, filter_body, '}'])
 
