@@ -40,7 +40,7 @@ def create_query(age: tuple = (None, None),
 
     if image is not None and not image == '':
         # select_str += f' ?{IMAGE_VAR}'
-        filter_body += '\n' + f'FILTER (?{constants.IMAGE.var} = {image}).'
+        filter_body += '\n' + f'FILTER (?{constants.IMAGE.var} = <{image}>).'
     q_body += '\n' + f'OPTIONAL {{?siri {constants.IMAGE.rel} ?{constants.IMAGE.var} }}'
 
     if diagnosis is not None and not diagnosis == '' and not control:
@@ -51,7 +51,7 @@ def create_query(age: tuple = (None, None),
     if control:
         # We are searching for this graph pattern but we do not return it to the user
         # TODO: revisit this decision. Maybe we want to return the control status to the user
-        q_body += '\n' + f'?siri {constants.CONTROL.rel} ?{constants.CONTROL.var} .'
+        q_body += '\n' + f'?siri {constants.CONTROL.rel} ?<{constants.CONTROL.var}>.'
 
     if tool is not None:
         pass
