@@ -23,14 +23,15 @@ def get_unique_values(variable: str) -> list:
     A list of literals or IRIs that are the unique objects of the target property
     """
     unique_q = f'''
-    SELECT DISTINCT ?value
+    SELECT DISTINCT ?value ?label
     WHERE {{
     ?siri a prov:Person;
         {variable} ?value.
+    OPTIONAL {{?value rdfs:label ?label.}} .
     }}
     '''
     results = process_query(constants.DEFAULT_CONTEXT + unique_q)
-    return [r.get('value') for r in results]
+    return [(r.get('value'), r.get('label')) for r in results]
 
 
 def get_query_choices():
@@ -50,8 +51,8 @@ def get_query_choices():
         (constants.CONTROL, 'is_control_choices')
     )
 
-    domain_choices = {choice_name: [(val, val)  # TODO replace the second part of the tuple with a human readable label
-                                    for val in get_unique_values(domain.rel)]
+    domain_choices = {choice_name: [(val, label if label is not None else val)
+                                    for val, label in get_unique_values(domain.rel)]
                       for domain, choice_name in domains}
 
     return domain_choices
