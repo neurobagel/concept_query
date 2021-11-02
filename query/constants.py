@@ -1,3 +1,4 @@
+from collections import namedtuple
 import re
 
 from requests.auth import HTTPBasicAuth
@@ -59,15 +60,19 @@ QUERY_URL = f'{DOG_ROOT}:{DOG_PORT}/{DOG_DB}/query'
 QUERY_HEADER = {'Content-Type': 'application/sparql-query', 'Accept': 'application/sparql-results+json'}
 QUERY_AUTH = HTTPBasicAuth('admin', 'admin')
 
-AGE_VAR = 'age'
-AGE_REL = 'nidm:hasAge'
-GENDER_VAR = 'gender'
-GENDER_REL = 'nidm:hasGender'
-DIAGNOSIS_VAR = 'diagnosis'
-DIAGNOSIS_REL = 'nidm:hasDiagnosis'
-IMAGE_VAR = 'image'
-IMAGE_REL = 'nidm:hadImageContrastType'
-TOOL_VAR = 'tool'
-TOOL_REL = ''
-PROJECT_VAR = 'project'
-PROJECT_REL = 'nidm:isPartOfProject'
+# Store domains in named tuples
+Domain = namedtuple('Domain', ['var', 'rel'])
+# Core domains
+AGE = Domain('age', 'nidm:hasAge')
+GENDER = Domain('gender', 'nidm:hasGender')
+DIAGNOSIS = Domain('diagnosis', 'nidm:hasDiagnosis')
+IMAGE = Domain('image', 'nidm:hadImageContrastType')
+TOOL = Domain('tool', '')
+PROJECT = Domain('project', 'nidm:isPartOfProject')
+CONTROL = Domain('control', 'nidm:isSubjectGroup')
+
+CATEGORICAL_DOMAINS = [
+    GENDER,
+    DIAGNOSIS,
+    IMAGE
+]

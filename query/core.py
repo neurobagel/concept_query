@@ -29,23 +29,23 @@ def create_query(age: tuple = (None, None),
     filter_body = ''
     if age is not None and not age == (None, None) and not age == ('', ''):
         # select_str += f' ?{AGE_VAR}'
-        filter_body += '\n' + f'FILTER (?{constants.AGE_VAR} > {age[0]} && ?{constants.AGE_VAR} < {age[1]}).'
-    q_body += '\n' + f'OPTIONAL {{?siri {constants.AGE_REL} ?{constants.AGE_VAR} }}'
+        filter_body += '\n' + f'FILTER (?{constants.AGE.var} > {age[0]} && ?{constants.AGE.var} < {age[1]}).'
+    q_body += '\n' + f'OPTIONAL {{?siri {constants.AGE.rel} ?{constants.AGE.var} }}'
 
     if gender is not None and not gender == '':
         # select_str += f' ?{GENDER_VAR}'
-        filter_body += '\n' + f'FILTER (?{constants.GENDER_VAR} = "{gender}").'
-    q_body += '\n' + f'OPTIONAL {{?siri {constants.GENDER_REL} ?{constants.GENDER_VAR} }}'
+        filter_body += '\n' + f'FILTER (?{constants.GENDER.var} = "{gender}").'
+    q_body += '\n' + f'OPTIONAL {{?siri {constants.GENDER.rel} ?{constants.GENDER.var} }}'
 
     if image is not None and not image == '':
         # select_str += f' ?{IMAGE_VAR}'
-        filter_body += '\n' + f'FILTER (?{constants.IMAGE_VAR} = {image}).'
-    q_body += '\n' + f'OPTIONAL {{?siri {constants.IMAGE_REL} ?{constants.IMAGE_VAR} }}'
+        filter_body += '\n' + f'FILTER (?{constants.IMAGE.var} = {image}).'
+    q_body += '\n' + f'OPTIONAL {{?siri {constants.IMAGE.rel} ?{constants.IMAGE.var} }}'
 
     if diagnosis is not None and not diagnosis == '':
         # select_str += ' ?diagnosis'
-        filter_body += '\n' + f'FILTER (?{constants.DIAGNOSIS_VAR} = <{diagnosis}>).'
-    q_body += '\n' + f'OPTIONAL {{?siri {constants.DIAGNOSIS_REL} ?{constants.DIAGNOSIS_VAR} }}'
+        filter_body += '\n' + f'FILTER (?{constants.DIAGNOSIS.var} = <{diagnosis}>).'
+    q_body += '\n' + f'OPTIONAL {{?siri {constants.DIAGNOSIS.rel} ?{constants.DIAGNOSIS.var} }}'
 
     if tool is not None:
         pass
@@ -57,9 +57,9 @@ def create_query(age: tuple = (None, None),
     SELECT DISTINCT ?open_neuro_id ?siri {select_str} 
     WHERE {{
         ?siri a prov:Person.
-        ?siri {constants.PROJECT_REL} ?{constants.PROJECT_VAR}.
+        ?siri {constants.PROJECT.rel} ?{constants.PROJECT.var}.
 
-        ?{constants.PROJECT_VAR} a nidm:Project;
+        ?{constants.PROJECT.var} a nidm:Project;
             dctypes:title ?projectname;
             prov:Location ?project_location .
         BIND( strafter(?project_location,"openneuro/") AS ?open_neuro_id ) .
