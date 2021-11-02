@@ -40,10 +40,10 @@ class QueryFieldsModel(models.Model):
     # Query fields
     age_lower = models.FloatField()
     age_upper = models.FloatField()
-    gender = models.CharField(choices=gender_choices, max_length=30)
-    modality = models.CharField(choices=modality_choices, max_length=60)
-    diagnosis = models.CharField(max_length=200)
-    is_control = models.CharField(choices=is_control_choices, max_length=30)
+    gender = models.CharField(choices=gender_choices, max_length=200)
+    modality = models.CharField(choices=modality_choices, max_length=200)
+    diagnosis = models.CharField(choices=diagnosis_choices, max_length=200)
+    is_control = models.CharField(choices=is_control_choices, max_length=200)
 
     # Results json
     results = models.JSONField(default=dict)
