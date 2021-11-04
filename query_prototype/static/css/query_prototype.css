@@ -1,0 +1,27 @@
+/*
+
+Author: Jonathan Armoza
+Created: 11/4/2021
+Purpose: Stylesheet for query prototype
+
+/* Tags */
+
+/* Classes */
+
+.card {
+
+    background-color: white;
+    border-color: black;
+    border-width: 3px;
+    border-radius: 10px;
+}
+.card-text {
+
+    font-size: 1.25em;
+}
+.card-title {
+
+    font-size: 1.75em;
+}
+
+/* IDs */
