@@ -12,15 +12,15 @@
 
 {% else %}
 
-<!-- <label for="resultsListGroup" class="form-label">Results</label> -->
+<input class="form-check-input" id="dataset-checkall" type="checkbox" value="" aria-label="...">
+<label for="dataset-checkall" class="form-label">Select all datasets</label>
 
-<div class="row d-flex justify-content-center" style="height: 50vh; overflow-y: auto; border: 2px; border-color: gray;">
+<div class="row d-flex justify-content-center" id="card-listbox">
     <ul class="list-group" id="resultsListGroup">
         
         {% for result in results %}
 
             <li class="list-group-item">
-
                 <div class="card">
 
                     <div class="card-body">
@@ -29,14 +29,22 @@
 
                                 <div class="col-8">
 
-                                    <div class="row">
-                                        <h5 class="card-title">{{ result.title.0 }}</h5>
-                                    </div>
+                                    <div class="row dflex justify-content-center">
+                                        
+                                        <div class="col-1 d-flex align-items-center card-checkbox">
+                                            <input class="form-check-input dataset-checkbox" type="checkbox" value="" aria-label="...">
+                                        </div>
 
-                                    <div class="row">
-                                        <p class="card-text">{{ result.n_subjects }} subjects</p>
-                                    </div>
-                                     
+                                        <div class="col-11 card-content">
+                                            <div class="row">
+                                                <h5 class="card-title">{{ result.title.0 }}</h5>
+                                            </div>
+                                            <div class="row">
+                                                <p class="card-text">{{ result.n_subjects }} subjects</p>
+                                            </div>        
+                                        </div>
+                                        
+                                    </div>                                     
                                 </div>
 
                                 <div class="col-4">
