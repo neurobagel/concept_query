@@ -8,9 +8,43 @@ Purpose: Stylesheet for query prototype
 
 /* Classes */
 
+/* Card classes */
+
+.btn-group {
+
+    padding-right: 0.5em;
+}
+.btn-toolbar {
+    padding-right: 0;
+}
 .card {
 
-    background-color: gray;
+    background-color: rgb(242, 242, 242);
+    border-radius: 10px;
+    color: black;
+}
+.card-dataset-source {
+
+    color: red;
+    font-size: 1em;
+}
+.card-modality {
+
+    font-size: 1em;
+}
+.card-text {
+
+    font-size: 1.25em;
+}
+.card-title {
+
+    font-size: 1.75em;
+
+    /* Ellipsis length truncation */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* IDs */
