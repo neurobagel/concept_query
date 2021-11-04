@@ -7,7 +7,7 @@ import os
 
 # Main functions
 
-def add_mockinfo_to_results(p_results_json): 
+def add_mockinfo_to_results(p_results_json, p_input_filepath): 
 
     # 1. Datasets to divide up subjects
     mock_datasets = {
@@ -57,7 +57,9 @@ def add_mockinfo_to_results(p_results_json):
                break
 
     # c. Write new results json to file
-    with open("{0}{1}modified_query_results.json".format(os.getcwd(), os.sep), "w") as output_file:
+    input_folder = os.path.dirname(p_input_filepath)
+    input_filename = os.path.basename(p_input_filepath)
+    with open("{0}{1}modified_{2}".format(input_folder, os.sep, input_filename), "w") as output_file:
         json.dump(new_results_json, output_file)
 
 
@@ -81,25 +83,29 @@ def examine_components(p_results_json):
     ages = [item["age"]["value"] for item in results if "age" in item]
     print(Counter(ages))
 
-
-# Main script
-
-def main():
+def examine_query_results(p_input_filepath):
 
     # 1. Read in json results file
-    filepath = "{0}{1}simple_query_sparql_results.json".format(os.getcwd(), os.sep)
-    with open(filepath, "r") as input_file:
+    with open(p_input_filepath, "r") as input_file:
         results_json = json.loads(input_file.read())
 
     # 2. Save easy references to results json components
     head = results_json["head"]
     results = results_json["results"]["bindings"]
 
-    # 3. Examine components of the results file
+    # 3. Debug output - examines components of the results file
     # examine_components(results_json)
 
     # 4. Divide results up into mock datasets
-    add_mockinfo_to_results(results_json)
+    add_mockinfo_to_results(results_json, p_input_filepath)
+
+# Main script
+
+def main():
+
+    input_filepath = "{0}{1}simple_query_sparql_results.json".format(os.getcwd(), os.sep)
+    examine_query_results(input_filepath)
+
         
 
 if "__main__" == __name__:

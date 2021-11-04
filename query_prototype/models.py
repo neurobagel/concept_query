@@ -38,8 +38,8 @@ from .query_choices import *
 class QueryFieldsModel(models.Model):
 
     # Query fields
-    age_lower = models.FloatField()
-    age_upper = models.FloatField()
+    age_lower = models.FloatField(null=True )
+    age_upper = models.FloatField(null=True )
     gender = models.CharField(choices=gender_choices, max_length=200)
     modality = models.CharField(choices=modality_choices, max_length=200)
     diagnosis = models.CharField(choices=diagnosis_choices, max_length=200)

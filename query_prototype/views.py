@@ -12,9 +12,10 @@ import os
 from django.shortcuts import render
 
 # Custom
-from query.core import create_query, process_query
+from query.core import agg_dataset_info, create_query, process_query
 from .forms import QueryFieldsForm
 from .models import QueryFieldsModel
+# from examine_query_results import examine_query_results
 
 def prototype_ui(request):
 
@@ -86,14 +87,14 @@ def get_manual_results():
 
     return query_results
 
-def get_correct_results():
+def get_correct_results(p_form):
 
     # a. Create a SPARQL query string with the query fields
     sparql_query = create_query(
-        (form.cleaned_data["age_lower"], form.cleaned_data["age_upper"]),
-        form.cleaned_data["gender"],
-        form.cleaned_data["modality"],
-        form.cleaned_data["diagnosis"],
+        (p_form.cleaned_data["age_lower"], p_form.cleaned_data["age_upper"]),
+        p_form.cleaned_data["gender"],
+        p_form.cleaned_data["modality"],
+        p_form.cleaned_data["diagnosis"],
         "" )
 
     print("SPARQL QUERY")
@@ -148,13 +149,19 @@ def formgenerated_query(request):
             if not query_results:
 
                 # Mock results (NOTE: To be removed)
-                query_results = get_mock_results()
+                # query_results = get_mock_results()
 
-                # Manually prepared results
+                # Manually prepared results (NOTE: To be removed)
                 # query_results = get_manual_results()
 
                 # Correct flow
-                # query_results = get_correct_results()
+                query_results = get_correct_results(form)
+
+                # Dump shortened version of results for examination
+                # temp_filepath = os.getcwd() + os.sep + "correct_results.json"
+                # with open(temp_filepath, "w") as output_file:
+                #     json.dump(query_results, output_file)
+                # examine_query_results(temp_filepath)
 
                 # Solution for adding extra fields to the database:
                 # https://stackoverflow.com/questions/58642207/save-extra-fields-to-django-model-apart-from-the-fields-which-were-present-in-dj
@@ -169,7 +176,8 @@ def formgenerated_query(request):
                 query_model_instance.save()
 
             # III. Respond with the form fields and query results
-            results_for_template = process_results_into_datasets(query_results)
+            # results_for_template = process_results_into_datasets(query_results)
+            results_for_template = agg_dataset_info(query_results)
             return render(
                 request,
                 "query_results_new.html",

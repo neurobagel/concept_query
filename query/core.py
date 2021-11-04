@@ -1,5 +1,6 @@
 import json
 
+import pandas as pd
 import requests
 
 from . import constants
@@ -93,3 +94,35 @@ def process_query(query_str: str) -> list:
 
     _results = json.loads(response.content.decode('utf-8'))
     return [{k: v['value'] for k, v in res.items()} for res in _results['results']['bindings']]
+
+
+def agg_dataset_info(query_results: list) -> list:
+    """
+
+    Parameters
+    ----------
+    query_results : list
+        The list of query results returned from a successful SPARQL query run by `process_query`
+
+    Returns
+    -------
+    dataset_table : list
+        A list of dictionaries, where each dictionary represents a dataset. Each dataset is described by its
+        title, dataset_id, the number of subjects, list of modalities, and list of diagnoses.
+    """
+    # Turn the results into a dataframe
+    results_df = pd.DataFrame(query_results)
+    # break down the data by dataset
+    datasets = results_df['dataset_id'].unique()
+    dataset_table = []
+    for dataset in datasets:
+        data_df = results_df.query('dataset_id==@dataset')
+        dataset_table.append(dict(n_subjects=data_df['siri'].nunique(),
+                                  diagnoses=list(data_df['diagnosis'].dropna().unique()),
+                                  modalities=list(data_df['image'].dropna().unique()),
+                                  title=data_df['title'].unique(),
+                                  dataset_id=dataset
+                                  )
+                             )
+        # TODO: also add description here. It will not be included as a column if none of the datasets has a description
+    return dataset_table
