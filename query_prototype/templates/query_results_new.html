@@ -12,8 +12,32 @@
 
 {% else %}
 
-<input class="form-check-input" id="dataset-checkall" type="checkbox" value="" aria-label="...">
-<label for="dataset-checkall" class="form-label">Select all datasets</label>
+<div class="row">
+    
+    <!-- Select all -->
+    <div class="col-3">
+        <input class="form-check-input" id="dataset-checkall" type="checkbox" value="" aria-label="...">
+        <label for="dataset-checkall" class="form-label">Select all datasets</label>
+    </div>
+
+    <!-- Results summary stats -->
+    <div class="col-7">
+        <label for="summary-stats-table" class="form-label">Summary stats:</label>
+        <table id="summary-stats-table">
+            {{ stats.datasets }} datasets, {{ stats.subjects }} subjects
+        </table>
+    </div>
+
+    <!-- Download csv -->
+    <div class="col-2">
+        <!-- Auto width -->
+        <button class="btn">
+            <i class="fa fa-download"></i>
+            <a href="/query_prototype/download" download>Download Results</a>
+        </button>                
+    </div>
+
+</div>
 
 <div class="row d-flex justify-content-center" id="card-listbox">
     <ul class="list-group" id="resultsListGroup">
