@@ -16,7 +16,7 @@ from query.core import agg_dataset_info, create_query, process_query
 from .forms import QueryFieldsForm
 from .models import QueryFieldsModel
 # from examine_query_results import examine_query_results
-from query_choices import *
+# from query_choices import *
 
 
 # Helper functions
