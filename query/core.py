@@ -110,8 +110,12 @@ def agg_dataset_info(query_results: list) -> list:
         A list of dictionaries, where each dictionary represents a dataset. Each dataset is described by its
         title, dataset_id, the number of subjects, list of modalities, and list of diagnoses.
     """
+    # Hardcode the columns. This ensures that even if a column is all None and thus excluded from the SPARQL response
+    # We still have it in the dataframe we pass on to the view function
+    # TODO: review this and maybe find a better solution for handling all None data
+    columns = ['open_neuro_id', 'siri', 'age', 'gender', 'image', 'diagnosis', 'dataset_id',  'title', 'description']
     # Turn the results into a dataframe
-    results_df = pd.DataFrame(query_results)
+    results_df = pd.DataFrame(query_results, columns=columns)
     # break down the data by dataset
     datasets = results_df['dataset_id'].unique()
     dataset_table = []
