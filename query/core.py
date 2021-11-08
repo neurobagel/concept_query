@@ -58,19 +58,19 @@ def create_query(age: tuple = (None, None),
         pass
 
     # Temporary override
-    select_str = '?age ?gender ?image ?diagnosis ?dataset_id ?title ?description'
+    select_str = '?age ?gender ?image ?diagnosis ?dataset_id ?title ?description ?repo'
 
     q_preamble = constants.DEFAULT_CONTEXT + f'''
-    SELECT DISTINCT ?open_neuro_id ?siri {select_str} 
+    SELECT DISTINCT ?siri {select_str} 
     WHERE {{
         ?siri a prov:Person.
         ?siri {constants.PROJECT.rel} ?{constants.PROJECT.var}.
 
         ?{constants.PROJECT.var} a nidm:Project;
             dctypes:title ?title;
-            prov:Location ?project_location .
+            nidm:fromDataRepository ?repo;
+            nidm:hasDatasetID ?dataset_id
         OPTIONAL {{ ?{constants.PROJECT.var} dctypes:description ?description;}}
-        BIND( strafter(?project_location,"openneuro/") AS ?dataset_id ) .
     '''
     query = '\n'.join([q_preamble, q_body, filter_body, '}'])
 
@@ -113,7 +113,7 @@ def agg_dataset_info(query_results: list) -> list:
     # Hardcode the columns. This ensures that even if a column is all None and thus excluded from the SPARQL response
     # We still have it in the dataframe we pass on to the view function
     # TODO: review this and maybe find a better solution for handling all None data
-    columns = ['open_neuro_id', 'siri', 'age', 'gender', 'image', 'diagnosis', 'dataset_id',  'title', 'description']
+    columns = ['siri', 'age', 'gender', 'image', 'diagnosis', 'dataset_id',  'title', 'description', 'repo']
     # Turn the results into a dataframe
     results_df = pd.DataFrame(query_results, columns=columns)
     # break down the data by dataset
@@ -125,7 +125,8 @@ def agg_dataset_info(query_results: list) -> list:
                                   diagnoses=list(data_df['diagnosis'].dropna().unique()),
                                   modalities=list(data_df['image'].dropna().unique()),
                                   title=data_df['title'].unique(),
-                                  dataset_id=dataset
+                                  dataset_id=dataset,
+                                  repo=data_df['repo'].unique()[0]
                                   )
                              )
         # TODO: also add description here. It will not be included as a column if none of the datasets has a description
