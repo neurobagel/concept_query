@@ -16,41 +16,10 @@ from query.core import agg_dataset_info, create_query, process_query
 from .forms import QueryFieldsForm
 from .models import QueryFieldsModel
 # from examine_query_results import examine_query_results
+# from query_choices import *
 
-def prototype_ui(request):
 
-        # return render(request, "base.html")
-
-        view_variables = {}
-        # view_variables["fields"] = prepopulate_function()
-        view_variables["fields"] = {
-
-            "gender": ["M", "F", "All"],
-            "modality": ["FlowWeighted", "DiffusionWeighted", "T1Weighted", "T2Weighted", "All"],
-            "is_control": ["Yes", "No", "All"]
-        }
-
-        if "POST" == request.method:
-
-            # Do query to Sebastian's code with form fields from request
-            # view_variables["query"] = sebs_query_function(form_fields)
-
-            # Mock
-            view_variables["query"] = {
-                
-                "age_lower":20,
-                "age_upper":55,
-                "gender":"F",
-                "modality": "T1Weighted",
-                "is_control": "No"
-            }
-
-            return render(request, "query_results.html", view_variables)
-
-        else:
-            # GET request
-
-            return render(request, "query_blank.html", view_variables)
+# Helper functions
 
 def get_mock_results():
 
@@ -106,6 +75,10 @@ def get_correct_results(p_form):
 
     return query_results
 
+def labels_from_choices(p_choices):
+    return [choice[1] for choice in p_choices if "All" != choice[1]]
+
+
 def process_results_into_datasets(p_query_results):
 
     # 1. Gather dataset info and add subjects to each dataset dictionary
@@ -130,6 +103,42 @@ def process_results_into_datasets(p_query_results):
 
     return datasets
 
+# Views
+
+def prototype_ui(request):
+
+        # return render(request, "base.html")
+
+        view_variables = {}
+        # view_variables["fields"] = prepopulate_function()
+        view_variables["fields"] = {
+
+            "gender": ["M", "F", "All"],
+            "modality": ["FlowWeighted", "DiffusionWeighted", "T1Weighted", "T2Weighted", "All"],
+            "is_control": ["Yes", "No", "All"]
+        }
+
+        if "POST" == request.method:
+
+            # Do query to Sebastian's code with form fields from request
+            # view_variables["query"] = sebs_query_function(form_fields)
+
+            # Mock
+            view_variables["query"] = {
+                
+                "age_lower":20,
+                "age_upper":55,
+                "gender":"F",
+                "modality": "T1Weighted",
+                "is_control": "No"
+            }
+
+            return render(request, "query_results.html", view_variables)
+
+        else:
+            # GET request
+
+            return render(request, "query_blank.html", view_variables)
 
 def formgenerated_query(request):
 
@@ -178,13 +187,32 @@ def formgenerated_query(request):
             # III. Respond with the form fields and query results
             # results_for_template = process_results_into_datasets(query_results)
             results_for_template = agg_dataset_info(query_results)
+
+            # IV. Extra information for populating results on the page
+            styles = {
+
+            }
+
+            # V. Summary stats of the search results
+            stats = {
+
+                "datasets": len(results_for_template),
+                "subjects": sum([result["n_subjects"] for result in results_for_template])
+                # "gender": { 
+                #     "labels": labels_from_choices(gender_choices),
+                #     "data": ...
+                # }
+            }
+
             return render(
                 request,
                 "query_results_new.html",
                 { 
                     "form": form,
                     "results": results_for_template,
-                    "query": True 
+                    "query": True,
+                    "stats": stats,
+                    "styles": styles
                 }
             )
 
@@ -196,3 +224,6 @@ def formgenerated_query(request):
     # B. Respond with the blank form fields
     return render(request, 'new_base.html', {"form": form, "results": [], "query": False})
  
+#  def download_csv(request):
+
+#      results = 

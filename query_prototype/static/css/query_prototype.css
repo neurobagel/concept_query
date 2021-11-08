@@ -8,7 +8,7 @@ Purpose: Stylesheet for query prototype
 
 /* Classes */
 
-/* Card classes */
+/* Card */
 
 .btn-group {
 
@@ -62,7 +62,7 @@ Purpose: Stylesheet for query prototype
 
     border: 2px;
     border-color: gray;
-    height: 50vh;
+    height: 75vh;
     overflow-y: auto;
 }
 
