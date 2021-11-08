@@ -35,21 +35,22 @@ from .query_choices import *
 #     title = models.CharField(max_length=30)
 #     description = models.TextField(max_length=200)
 
+def sort_choice_tuples(p_choices):
+    return sorted(p_choices, key=lambda x: x[1])
+
+
 class QueryFieldsModel(models.Model):
 
     # Query fields
     age_lower = models.FloatField(null=True )
     age_upper = models.FloatField(null=True )
-    gender = models.CharField(choices=gender_choices, max_length=200)
-    modality = models.CharField(choices=modality_choices, max_length=200)
-    diagnosis = models.CharField(choices=diagnosis_choices, max_length=200)
-    is_control = models.CharField(choices=is_control_choices, max_length=200)
+    gender = models.CharField(choices=sort_choice_tuples(gender_choices), max_length=200)
+    modality = models.CharField(choices=sort_choice_tuples(modality_choices), max_length=200)
+    diagnosis = models.CharField(choices=sort_choice_tuples(diagnosis_choices), max_length=200)
+    is_control = models.CharField(choices=sort_choice_tuples(is_control_choices), max_length=200)
 
     # Results json
     results = models.JSONField(default=dict)
-
-    # def __str__(self):
-    #     return "Bob Wiley"
 
     @staticmethod
     def find_query_in_db(p_query_fields: dict) -> dict:
