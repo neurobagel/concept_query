@@ -64,7 +64,8 @@
                                                 <h5 class="card-title">{{ result.title.0 }}</h5>
                                             </div>
                                             <div class="row">
-                                                <p class="card-text">{{ result.n_subjects }} subjects</p>
+                                                <div class="col-6"><p class="card-text">{{ result.n_subjects }} subjects</p></div>
+                                                <div class="col-6"><p class="card-text">repository dataset ID: {{ result.dataset_id }}</p></div>
                                             </div>        
                                         </div>
                                         
@@ -74,7 +75,7 @@
                                 <div class="col-4">
 
                                     <div class="row">
-                                        <p class="card-dataset-source d-flex justify-content-end">OpenNeuro</p>
+                                        <div class="card-dataset-source d-flex justify-content-end"><a href="{{ result.repo }}">{{ result.repo }}</a></div>
                                     </div>
 
                                     <div class="row">
