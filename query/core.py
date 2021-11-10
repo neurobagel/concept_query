@@ -11,7 +11,10 @@ def create_query(age: tuple = (None, None),
                  image: str = None,
                  diagnosis: str = None,
                  tool: str = None,
-                 control: bool = False) -> str:
+                 control: bool = False,
+                 moca: tuple = (None, None),
+                 updrs: tuple = (None, None),
+                 mmse: tuple = (None, None)) -> str:
     """
 
     Parameters
@@ -60,8 +63,30 @@ def create_query(age: tuple = (None, None),
     if tool is not None:
         pass
 
+    # Add parkinson specific tools
+    if isinstance(moca, tuple) and not moca == (None, None) and not moca == ('', ''):
+        # Ensure that age has default lower and upper bounds
+        # TODO: revisit this and replace this solution with one that just doesn't add the filter condition.
+        moca = tuple((default_val if moca_val is None else moca_val for moca_val, default_val in zip(moca, [0, 100])))
+        filter_body += '\n' + f'FILTER (?{constants.MOCA.var} > {moca[0]} && ?{constants.MOCA.var} < {moca[1]}).'
+    q_body += '\n' + f'OPTIONAL {{?siri {constants.MOCA.rel} ?{constants.MOCA.var} }}'
+
+    if isinstance(updrs, tuple) and not updrs == (None, None) and not updrs == ('', ''):
+        # Ensure that updrs has default lower and upper bounds
+        # TODO: revisit this and replace this solution with one that just doesn't add the filter condition.
+        updrs = tuple((default_val if updrs_val is None else updrs_val for updrs_val, default_val in zip(updrs, [0, 100])))
+        filter_body += '\n' + f'FILTER (?{constants.UPDRS.var} > {updrs[0]} && ?{constants.UPDRS.var} < {updrs[1]}).'
+    q_body += '\n' + f'OPTIONAL {{?siri {constants.UPDRS.rel} ?{constants.UPDRS.var} }}'
+
+    if isinstance(mmse, tuple) and not mmse == (None, None) and not mmse == ('', ''):
+        # Ensure that mmse has default lower and upper bounds
+        # TODO: revisit this and replace this solution with one that just doesn't add the filter condition.
+        mmse = tuple((default_val if mmse_val is None else mmse_val for mmse_val, default_val in zip(mmse, [0, 100])))
+        filter_body += '\n' + f'FILTER (?{constants.MMSE.var} > {mmse[0]} && ?{constants.MMSE.var} < {mmse[1]}).'
+    q_body += '\n' + f'OPTIONAL {{?siri {constants.MMSE.rel} ?{constants.MMSE.var} }}'
+
     # Temporary override
-    select_str = '?age ?gender ?image ?diagnosis ?dataset_id ?title ?description ?repo'
+    select_str = '?age ?gender ?image ?diagnosis ?dataset_id ?title ?description ?repo ?moca ?updrs ?mmse'
 
     q_preamble = constants.DEFAULT_CONTEXT + f'''
     SELECT DISTINCT ?siri {select_str} 

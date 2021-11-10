@@ -70,6 +70,10 @@ IMAGE = Domain('image', 'nidm:hadImageContrastType')
 TOOL = Domain('tool', '')
 PROJECT = Domain('project', 'nidm:isPartOfProject')
 CONTROL = Domain('nidm:Control', 'nidm:isSubjectGroup')
+# Parkinson tools
+MOCA = Domain('moca', 'nidm:hasMOCA')
+UPDRS = Domain('updrs', 'nidm:hasUPDRS')
+MMSE = Domain('mmse', 'nidm:hasMMSE')
 
 CATEGORICAL_DOMAINS = [
     GENDER,

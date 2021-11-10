@@ -64,7 +64,12 @@ def get_correct_results(p_form):
         p_form.cleaned_data["gender"],
         p_form.cleaned_data["modality"],
         p_form.cleaned_data["diagnosis"],
-        "" )
+        "",
+        control=p_form.cleaned_data["is_control"],
+        moca=(p_form.cleaned_data["moca_lower"], p_form.cleaned_data["moca_upper"]),
+        updrs=(p_form.cleaned_data["updrs_lower"], p_form.cleaned_data["updrs_upper"]),
+        mmse=(p_form.cleaned_data["mmse_lower"], p_form.cleaned_data["mmse_upper"]),
+    )
 
     print("SPARQL QUERY")
     print(sparql_query)

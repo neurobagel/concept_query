@@ -1,7 +1,7 @@
 """
 This is an automatically generated file.
 It contains the unique choices for the categorical query domains that users can select from.
-This file was last generated on Wednesday, 10. November 2021, 12:11 (UTC).
+This file was last generated on Wednesday, 10. November 2021, 12:32 (UTC).
 
 Don't change the contents of this file below this line.
 In order to update the file, run:
@@ -43,7 +43,7 @@ modality_choices = (
     ("http://purl.org/nidash/nidm#T1Weighted", "T1 weighted"),
     ("http://purl.org/nidash/nidm#DiffusionWeighted", "Diffusion weighted"),
     ("http://purl.org/nidash/nidm#T2Weighted", "T2 weighted"),
-    ("http://purl.org/nidash/nidm#EEG", "http://purl.org/nidash/nidm#EEG"),
+    ("http://purl.org/nidash/nidm#EEG", "EEG"),
     (None, "All")
 )
 
