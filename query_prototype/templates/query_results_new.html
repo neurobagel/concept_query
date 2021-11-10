@@ -102,6 +102,11 @@
                                                     <button type="button" class="btn card-modality"
                                                     style="background-color:rgb(236,197,50);">Flow</button>    
                                                 </div>
+                                                    {% elif 'http://purl.org/nidash/nidm#EEG' == modality %}
+                                                <div class="btn-group" role="group" aria-label="Fifth group">
+                                                    <button type="button" class="btn card-modality"
+                                                    style="background-color:rgb(128,1,1); color: white;">EEG</button>
+                                                </div>
                                                 {% endif %} 
                                             {% endfor %}                                         
                                           </div>
