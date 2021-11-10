@@ -29,8 +29,11 @@ def create_query(age: tuple = (None, None),
     # select_str = ''
     q_body = ''
     filter_body = ''
-    if age is not None and not age == (None, None) and not age == ('', ''):
+    if isinstance(age, tuple) and not age == (None, None) and not age == ('', ''):
         # select_str += f' ?{AGE_VAR}'
+        # Ensure that age has default lower and upper bounds
+        # TODO: revisit this and replace this solution with one that just doesn't add the filter condition.
+        age = tuple((default_val if age_val is None else age_val for age_val, default_val in zip(age, [0, 100])))
         filter_body += '\n' + f'FILTER (?{constants.AGE.var} > {age[0]} && ?{constants.AGE.var} < {age[1]}).'
     q_body += '\n' + f'OPTIONAL {{?siri {constants.AGE.rel} ?{constants.AGE.var} }}'
 
