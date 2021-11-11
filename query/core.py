@@ -29,8 +29,11 @@ def create_query(age: tuple = (None, None),
     # select_str = ''
     q_body = ''
     filter_body = ''
-    if age is not None and not age == (None, None) and not age == ('', ''):
+    if isinstance(age, tuple) and not age == (None, None) and not age == ('', ''):
         # select_str += f' ?{AGE_VAR}'
+        # Ensure that age has default lower and upper bounds
+        # TODO: revisit this and replace this solution with one that just doesn't add the filter condition.
+        age = tuple((default_val if age_val is None else age_val for age_val, default_val in zip(age, [0, 100])))
         filter_body += '\n' + f'FILTER (?{constants.AGE.var} > {age[0]} && ?{constants.AGE.var} < {age[1]}).'
     q_body += '\n' + f'OPTIONAL {{?siri {constants.AGE.rel} ?{constants.AGE.var} }}'
 
@@ -58,19 +61,19 @@ def create_query(age: tuple = (None, None),
         pass
 
     # Temporary override
-    select_str = '?age ?gender ?image ?diagnosis ?dataset_id ?title ?description'
+    select_str = '?age ?gender ?image ?diagnosis ?dataset_id ?title ?description ?repo'
 
     q_preamble = constants.DEFAULT_CONTEXT + f'''
-    SELECT DISTINCT ?open_neuro_id ?siri {select_str} 
+    SELECT DISTINCT ?siri {select_str} 
     WHERE {{
         ?siri a prov:Person.
         ?siri {constants.PROJECT.rel} ?{constants.PROJECT.var}.
 
         ?{constants.PROJECT.var} a nidm:Project;
             dctypes:title ?title;
-            prov:Location ?project_location .
+            nidm:fromDataRepository ?repo;
+            nidm:hasDatasetID ?dataset_id
         OPTIONAL {{ ?{constants.PROJECT.var} dctypes:description ?description;}}
-        BIND( strafter(?project_location,"openneuro/") AS ?dataset_id ) .
     '''
     query = '\n'.join([q_preamble, q_body, filter_body, '}'])
 
@@ -110,8 +113,12 @@ def agg_dataset_info(query_results: list) -> list:
         A list of dictionaries, where each dictionary represents a dataset. Each dataset is described by its
         title, dataset_id, the number of subjects, list of modalities, and list of diagnoses.
     """
+    # Hardcode the columns. This ensures that even if a column is all None and thus excluded from the SPARQL response
+    # We still have it in the dataframe we pass on to the view function
+    # TODO: review this and maybe find a better solution for handling all None data
+    columns = ['siri', 'age', 'gender', 'image', 'diagnosis', 'dataset_id',  'title', 'description', 'repo']
     # Turn the results into a dataframe
-    results_df = pd.DataFrame(query_results)
+    results_df = pd.DataFrame(query_results, columns=columns)
     # break down the data by dataset
     datasets = results_df['dataset_id'].unique()
     dataset_table = []
@@ -121,7 +128,8 @@ def agg_dataset_info(query_results: list) -> list:
                                   diagnoses=list(data_df['diagnosis'].dropna().unique()),
                                   modalities=list(data_df['image'].dropna().unique()),
                                   title=data_df['title'].unique(),
-                                  dataset_id=dataset
+                                  dataset_id=dataset,
+                                  repo=data_df['repo'].unique()[0]
                                   )
                              )
         # TODO: also add description here. It will not be included as a column if none of the datasets has a description
