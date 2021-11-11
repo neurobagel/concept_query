@@ -32,7 +32,13 @@ class QueryFieldsForm(forms.ModelForm):
             "gender",
             "modality",
             "diagnosis",
-            "is_control"
+            "is_control",
+            "moca_lower",
+            "moca_upper",
+            "updrs_lower",
+            "updrs_upper",
+            "mmse_lower",
+            "mmse_upper",
         )
     
     def __init__(self, *args, **kwargs):
@@ -43,4 +49,10 @@ class QueryFieldsForm(forms.ModelForm):
         self.fields["modality"].required = False
         self.fields["diagnosis"].required = False
         self.fields["is_control"].required = False
+        self.fields["moca_lower"].required = False
+        self.fields["moca_upper"].required = False
+        self.fields["updrs_lower"].required = False
+        self.fields["updrs_upper"].required = False
+        self.fields["mmse_lower"].required = False
+        self.fields["mmse_upper"].required = False
 

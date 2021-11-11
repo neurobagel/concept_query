@@ -12,27 +12,54 @@
 
 {% else %}
 
-<input class="form-check-input" id="dataset-checkall" type="checkbox" value="" aria-label="...">
-<label for="dataset-checkall" class="form-label">Select all datasets</label>
+<div class="row" id="query-controls">
+    
+    <!-- Select all -->
+    <div class="col-3">
+        <input class="form-check-input" id="dataset-checkall" type="checkbox" value="" aria-label="...">
+        <label for="dataset-checkall" class="form-label">Select all datasets</label>
+    </div>
+
+    <!-- Results summary stats -->
+    <div class="col-5">
+        <label for="summary-stats-table" class="form-label">Summary stats:</label>
+        <table id="summary-stats-table">
+            {{ stats.datasets }} datasets, {{ stats.subjects }} subjects
+        </table>
+    </div>
+
+    <!-- Download csv -->
+    <div class="col-4">
+        <!-- Auto width -->
+        <button class="btn" id="download-results-button">
+            <i class="fa fa-download"></i>
+            <a href="#" id="download-results-link">Download Results</a>
+        </button>                
+    </div>
+
+</div>
 
 <div class="row d-flex justify-content-center" id="card-listbox">
+
     <ul class="list-group" id="resultsListGroup">
         
         {% for result in results %}
 
             <li class="list-group-item">
-                <div class="card">
 
+                <div class="card">
                     <div class="card-body">
                     
                             <div class="row">
 
                                 <div class="col-8">
-
                                     <div class="row dflex justify-content-center">
-                                        
+
                                         <div class="col-1 d-flex align-items-center card-checkbox">
-                                            <input class="form-check-input dataset-checkbox" type="checkbox" value="" aria-label="...">
+                                            <input class="form-check-input dataset-checkbox"
+                                                   type="checkbox"
+                                                   id="{{ result.dataset_id }}"
+                                                   value="" aria-label="...">
                                         </div>
 
                                         <div class="col-11 card-content">
@@ -40,7 +67,8 @@
                                                 <h5 class="card-title">{{ result.title.0 }}</h5>
                                             </div>
                                             <div class="row">
-                                                <p class="card-text">{{ result.n_subjects }} subjects</p>
+                                                <div class="col-6"><p class="card-text">{{ result.n_subjects }} subjects</p></div>
+                                                <div class="col-6"><p class="card-text">repository dataset ID: {{ result.dataset_id }}</p></div>
                                             </div>        
                                         </div>
                                         
@@ -50,7 +78,7 @@
                                 <div class="col-4">
 
                                     <div class="row">
-                                        <p class="card-dataset-source d-flex justify-content-end">OpenNeuro</p>
+                                        <div class="card-dataset-source d-flex justify-content-end"><a href="{{ result.repo }}">{{ result.repo }}</a></div>
                                     </div>
 
                                     <div class="row">
@@ -77,17 +105,21 @@
                                                     <button type="button" class="btn card-modality"
                                                     style="background-color:rgb(236,197,50);">Flow</button>    
                                                 </div>
+                                                    {% elif 'http://purl.org/nidash/nidm#EEG' == modality %}
+                                                <div class="btn-group" role="group" aria-label="Fifth group">
+                                                    <button type="button" class="btn card-modality"
+                                                    style="background-color:rgb(128,1,1); color: white;">EEG</button>
+                                                </div>
                                                 {% endif %} 
                                             {% endfor %}                                         
                                           </div>
                                     </div>
 
                                 </div>
+
                             </div>
 
-
                         <!-- NOTE: Subjects to be reintroduced in next metadata query iteration -->
-
                         <!-- <a data-bs-toggle="collapse" href="#collapseExample{{ forloop.counter }}" class="btn btn-primary">Show subjects</a>
 
                         <div class="collapse" id="collapseExample{{ forloop.counter }}">
@@ -120,17 +152,23 @@
                         </div> -->
                     </div>
                 </div>
+
             </li>
 
         {% endfor %}
 
     </ul>
+
 </div>
 
-<!-- <div class="row">
-    <h2>Subjects</h2>
-</div> -->
-
 {% endif %}
+
+{% endblock %}
+
+{% block handle_results %}
+
+<script>
+    var resultsHandler = new QueryPrototypeResultsHandler("{{ id }}");
+</script>
 
 {% endblock %}
