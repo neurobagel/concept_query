@@ -12,7 +12,7 @@
 
 {% else %}
 
-<div class="row">
+<div class="row" id="query-controls">
     
     <!-- Select all -->
     <div class="col-3">
@@ -21,7 +21,7 @@
     </div>
 
     <!-- Results summary stats -->
-    <div class="col-9">
+    <div class="col-5">
         <label for="summary-stats-table" class="form-label">Summary stats:</label>
         <table id="summary-stats-table">
             {{ stats.datasets }} datasets, {{ stats.subjects }} subjects
@@ -29,34 +29,37 @@
     </div>
 
     <!-- Download csv -->
-    <!-- <div class="col-2"> -->
+    <div class="col-4">
         <!-- Auto width -->
-        <!-- <button class="btn">
+        <button class="btn" id="download-results-button">
             <i class="fa fa-download"></i>
-            <a href="/query_prototype/download" download>Download Results</a>
-        </button>                 -->
-    <!-- </div> -->
+            <a href="#" id="download-results-link">Download Results</a>
+        </button>                
+    </div>
 
 </div>
 
 <div class="row d-flex justify-content-center" id="card-listbox">
+
     <ul class="list-group" id="resultsListGroup">
         
         {% for result in results %}
 
             <li class="list-group-item">
-                <div class="card">
 
+                <div class="card">
                     <div class="card-body">
                     
                             <div class="row">
 
                                 <div class="col-8">
-
                                     <div class="row dflex justify-content-center">
-                                        
+
                                         <div class="col-1 d-flex align-items-center card-checkbox">
-                                            <input class="form-check-input dataset-checkbox" type="checkbox" value="" aria-label="...">
+                                            <input class="form-check-input dataset-checkbox"
+                                                   type="checkbox"
+                                                   id="{{ result.dataset_id }}"
+                                                   value="" aria-label="...">
                                         </div>
 
                                         <div class="col-11 card-content">
@@ -113,11 +116,10 @@
                                     </div>
 
                                 </div>
+
                             </div>
 
-
                         <!-- NOTE: Subjects to be reintroduced in next metadata query iteration -->
-
                         <!-- <a data-bs-toggle="collapse" href="#collapseExample{{ forloop.counter }}" class="btn btn-primary">Show subjects</a>
 
                         <div class="collapse" id="collapseExample{{ forloop.counter }}">
@@ -150,17 +152,23 @@
                         </div> -->
                     </div>
                 </div>
+
             </li>
 
         {% endfor %}
 
     </ul>
+
 </div>
 
-<!-- <div class="row">
-    <h2>Subjects</h2>
-</div> -->
-
 {% endif %}
+
+{% endblock %}
+
+{% block handle_results %}
+
+<script>
+    var resultsHandler = new QueryPrototypeResultsHandler("{{ id }}");
+</script>
 
 {% endblock %}

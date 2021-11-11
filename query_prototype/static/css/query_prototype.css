@@ -66,3 +66,21 @@ Purpose: Stylesheet for query prototype
     overflow-y: auto;
 }
 
+#download-results-button {
+
+    background-color: dodgerblue;
+    color: white;
+    visibility: hidden;
+}
+
+#download-results-link {
+
+    color: white;
+    text-decoration: none;
+}
+
+#query-controls {
+
+    padding-bottom: 1em;
+}
+

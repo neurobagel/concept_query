@@ -4,10 +4,9 @@
 # Third party
 from django.db import models
 
-from query.core import process_query
-
 # Custom
 from .query_choices import *
+from query.core import process_query
 
 # Create your models here.
 
@@ -68,8 +67,8 @@ class QueryFieldsModel(models.Model):
         # 1. Check the database for saved queries that match the given one
         for instance in model_instances:
             if QueryFieldsModel.model_matches_form_data(p_query_fields, instance):
-                return instance.results
-
+                return instance
+        
         # 2. Return nothing, otherwise
         return None
 
