@@ -71,8 +71,11 @@ def filtered_query_results(p_filtered_data, p_query_results):
                 result["dataset_id"],
                 "\"" + result["title"] + "\"",
                 str(len(csv_data)),
-                result["age"],
+                # result["age"],
             ]
+
+            # NOTE: Temp fix for results with no age field
+            result_row.append("" if "age" not in result else result["age"])
 
             # II. Save extra field values if present in the subject data
             for field in choices.keys():
