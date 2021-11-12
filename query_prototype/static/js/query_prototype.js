@@ -39,7 +39,8 @@ class QueryPrototypeResultsHandler {
                 });
 
                 // b. Make the download results button visible
-                $("#download-results-button").css("visibility", "visible");
+                // $("#download-results-button").css("visibility", "visible");
+                $("#download-results-button").prop("disabled", false);
             }
             else {
 
@@ -47,7 +48,8 @@ class QueryPrototypeResultsHandler {
                 QueryPrototypeResultsHandler.data_list = [];
 
                 // b. Hide the download results button
-                $("#download-results-button").css("visibility", "hidden");
+                // $("#download-results-button").css("visibility", "hidden");
+                $("#download-results-button").prop("disabled", true);
             }
         });
 
@@ -72,7 +74,8 @@ class QueryPrototypeResultsHandler {
                 QueryPrototypeResultsHandler.data_list.push($(this).attr("id"));
 
                 // b. Make the download results button visible
-                $("#download-results-button").css("visibility", "visible");
+                // $("#download-results-button").css("visibility", "visible");
+                $("#download-results-button").prop("disabled", false);
             } 
             // B. Otherwise, remove the dataset id from the data list
             else {
@@ -85,7 +88,9 @@ class QueryPrototypeResultsHandler {
 
                 // b. Hide the download results button
                 if ( 0 == QueryPrototypeResultsHandler.data_list.length ) {
-                    $("#download-results-button").css("visibility", "hidden");
+                    
+                    $("#download-results-button").prop("disabled", true);
+                    // $("#download-results-button").css("visibility", "hidden");
                 }
             }
         });

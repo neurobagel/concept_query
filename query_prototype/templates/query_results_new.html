@@ -15,33 +15,30 @@
 <div class="row" id="query-controls">
     
     <!-- Select all -->
-    <div class="col-3">
+    <div class="col-7">
+
         <input class="form-check-input" id="dataset-checkall" type="checkbox" value="" aria-label="...">
         <label for="dataset-checkall" class="form-label">Select all datasets</label>
+
     </div>
 
     <!-- Results summary stats -->
     <div class="col-5">
-        <label for="summary-stats-table" class="form-label">Summary stats:</label>
-        <table id="summary-stats-table">
-            {{ stats.datasets }} datasets, {{ stats.subjects }} subjects
-        </table>
-    </div>
+        
+        <div id="summary-stats">
+            <label for="summary-stats-table" class="form-label">Summary stats:</label>
+            <table id="summary-stats-table">
+                {{ stats.datasets }} datasets, {{ stats.subjects }} subjects
+            </table>
+        </div>
 
-    <!-- Download csv -->
-    <div class="col-4">
-        <!-- Auto width -->
-        <button class="btn" id="download-results-button">
-            <i class="fa fa-download"></i>
-            <a href="#" id="download-results-link">Download Results</a>
-        </button>                
     </div>
 
 </div>
 
 <div class="row d-flex justify-content-center" id="card-listbox">
 
-    <ul class="list-group" id="resultsListGroup">
+    <ul class="list-group" id="results-list-group">
         
         {% for result in results %}
 
@@ -158,6 +155,18 @@
         {% endfor %}
 
     </ul>
+
+</div>
+
+<!-- Download csv -->
+<div class="d-flex flex-row-reverse" style="margin-top: 1em;">
+
+    <div class="mr-auto">
+        <button class="btn" id="download-results-button" disabled>
+            <i class="fa fa-download"></i>
+            <a href="#" id="download-results-link">Download Results</a>
+        </button>
+    </div>
 
 </div>
 
