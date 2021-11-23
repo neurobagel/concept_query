@@ -12,6 +12,8 @@ pandas = "*"
 
 [dev-packages]
 pytest = "*"
+pytest-django = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.9"
