@@ -15,11 +15,10 @@ import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = Path(__file__).resolve().parent
 
-
-# Quick-start development settings - unsuitable for production
+# TODO:
+#  Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -47,10 +46,6 @@ INSTALLED_APPS = [
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
-
-# PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-# sys.path.append(os.path.join(PROJECT_ROOT, 'concept_query_demo'))
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,10 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'concept_query_demo.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -94,7 +85,7 @@ DATABASES = {
 }
 
 
-# Password validation
+# TODO: Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
