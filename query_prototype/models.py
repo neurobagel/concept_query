@@ -1,39 +1,11 @@
-
-# Imports
-
 # Third party
 from django.db import models
 
 # Custom
 from .query_choices import *
-from query.core import process_query
 
-# Create your models here.
 
-# subject CharField
-# age (float) FloatField
-# gender (string) CharField
-# modality (nidm:imagetypes) CharField
-# diagnosis (snomded IRI) URLField
-# isControl (bool) BooleanField
-
-# class Subject(models.Model):
-    
-#     # Fields
-#     age = models.FloatField()
-#     diagnosis = models.URLField()
-#     gender = models.CharField(max_length=10)
-#     isControl = models.BooleanField()
-#     modality = models.CharField(max_length=30)
-    
-#     # Relationships
-#     dataset = models.ForeignKey('DatasetMetadata', on_delete=models.CASCADE)
-
-# class DatasetMetadata(models.Model):
-
-#     title = models.CharField(max_length=30)
-#     description = models.TextField(max_length=200)
-
+# TODO: move this helper somewhere else or find a way to do it in django
 def sort_choice_tuples(p_choices):
     return sorted(p_choices, key=lambda x: x[1])
 
@@ -58,6 +30,7 @@ class QueryFieldsModel(models.Model):
     # Results json
     results = models.JSONField(default=dict)
 
+    # TODO: move these static methods somewhere else
     @staticmethod
     def find_query_in_db(p_query_fields: dict) -> dict:
 
