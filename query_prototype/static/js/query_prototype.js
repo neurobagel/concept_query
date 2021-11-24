@@ -4,10 +4,6 @@
 
 class QueryPrototypeResultsHandler {
 
-    // static id_downloadResults = "#download-results";
-    // static id_resultsCheckAll = "#dataset-checkall";
-    // static class_resultsCheckbox = ".dataset-checkbox";
-
     static data_list = [];
 
     constructor(p_queryID) {
@@ -39,7 +35,6 @@ class QueryPrototypeResultsHandler {
                 });
 
                 // b. Make the download results button visible
-                // $("#download-results-button").css("visibility", "visible");
                 $("#download-results-button").prop("disabled", false);
             }
             else {
@@ -48,7 +43,6 @@ class QueryPrototypeResultsHandler {
                 QueryPrototypeResultsHandler.data_list = [];
 
                 // b. Hide the download results button
-                // $("#download-results-button").css("visibility", "hidden");
                 $("#download-results-button").prop("disabled", true);
             }
         });
@@ -74,7 +68,6 @@ class QueryPrototypeResultsHandler {
                 QueryPrototypeResultsHandler.data_list.push($(this).attr("id"));
 
                 // b. Make the download results button visible
-                // $("#download-results-button").css("visibility", "visible");
                 $("#download-results-button").prop("disabled", false);
             } 
             // B. Otherwise, remove the dataset id from the data list
@@ -90,7 +83,6 @@ class QueryPrototypeResultsHandler {
                 if ( 0 == QueryPrototypeResultsHandler.data_list.length ) {
                     
                     $("#download-results-button").prop("disabled", true);
-                    // $("#download-results-button").css("visibility", "hidden");
                 }
             }
         });
@@ -115,13 +107,6 @@ class QueryPrototypeResultsHandler {
                 method: "POST",
                 url: p_url,
                 data: p_data,
-                // success: function (data) {
-                //     //this gets called when server returns an OK response
-                //     alert("it worked!");
-                // },
-                // error: function (data) {
-                //     alert("it didnt work");
-                // }
                 success: function(blob, status, xhr) {
                     
                     // 1. Check for a filename
