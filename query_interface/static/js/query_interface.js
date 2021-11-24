@@ -95,7 +95,7 @@ class QueryPrototypeResultsHandler {
             "query": this.queryID,
             "datasets": QueryPrototypeResultsHandler.data_list
         }
-        this.sendPostWithData(`${location.origin}/query_prototype/download_csv/`, JSON.stringify(data_json), "text/csv");
+        this.sendPostWithData(`${location.origin}/query_interface/download_csv/`, JSON.stringify(data_json), "text/csv");
     }
 
     sendPostWithData(p_url, p_data, p_contentType) {

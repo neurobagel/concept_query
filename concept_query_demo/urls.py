@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('query_prototype/', include("query_prototype.urls"))
+    path('query_interface/', include("query_interface.urls"))
 ]
