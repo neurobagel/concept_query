@@ -1,3 +1,5 @@
+import re
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -35,17 +37,43 @@ def test_user_can_run_an_empty_cohort_query(driver, live_server):
     # the results area has a note saying "Click 'Query Metadata' for results"
     assert "Click 'Query Metadata' for results" in results_view.text
 
-    # The interface allows me to define age, gender, diagnosis, and modality. I leave all of them emtpy
+    # The interface allows me to define age, gender, diagnosis, and modality.
+    assert driver.find_element(By.ID, 'div_id_age_lower').is_displayed()
+    assert driver.find_element(By.ID, 'div_id_age_upper').is_displayed()
+    assert driver.find_element(By.ID, 'div_id_gender').is_displayed()
+    assert driver.find_element(By.ID, 'div_id_diagnosis').is_displayed()
+    assert driver.find_element(By.ID, 'div_id_modality').is_displayed()
+    # I leave all of them emtpy
 
     # Below the query interface, I see a button labeled with "run query". I click on it to run my query
+    query_btn = driver.find_element(By.XPATH, '//button[normalize-space()="Query Metadata"]')
+    assert query_btn.is_displayed()
+    # I click on it to run my query
+    query_btn.click()
 
     # On the right side I can now see cards for each dataset that matches my cohort criteria
+    results_view = driver.find_element(By.ID, 'query-results-column')
+    dataset_cards = results_view.find_elements(By.CLASS_NAME, 'card')
+    assert dataset_cards
 
     # Above the results section, I see summary statistics for the total number of subjects and datasets included
     # in my cohort
+    summary_stats = driver.find_element(By.ID, 'summary-stats')
+    n_datasets_str = re.search(r'\d+(?= datasets)', summary_stats.text)
+    assert n_datasets_str is not None
 
-    # Each dataset card has a checkbox that I can select and deselect to include or exclude the dataset from the
-    # download list
+    # This number is equal to the number of cards on the page
+    n_datasets = int(n_datasets_str.group())
+    assert n_datasets == len(dataset_cards)
+
+    # Each dataset card has a checkbox that I can select and deselect
+    # TODO consider checking for all - might be overkill
+    checkbox = dataset_cards[0].find_element(By.CLASS_NAME, 'dataset-checkbox')
+    assert not checkbox.is_selected()
+    checkbox.click()
+
+    # to include or exclude the dataset from the download list
+    assert False, 'test is not done. finish the rest of the implementation'
 
     # below the results view section I see a button labeled "Download results". I click it to download a csv
     # with the results of my cohort query
