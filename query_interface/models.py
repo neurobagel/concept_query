@@ -1,5 +1,6 @@
 # Third party
 from django.db import models
+from django.core.validators import MinValueValidator
 
 # Custom
 from .query_choices import *
@@ -13,8 +14,8 @@ def sort_choice_tuples(p_choices):
 class QueryFieldsModel(models.Model):
 
     # Query fields
-    age_lower = models.FloatField(null=True )
-    age_upper = models.FloatField(null=True )
+    age_lower = models.FloatField(null=True, validators=[MinValueValidator(0.0)])
+    age_upper = models.FloatField(null=True, validators=[MinValueValidator(0.0)])
     gender = models.CharField(choices=sort_choice_tuples(gender_choices), max_length=200)
     modality = models.CharField(choices=sort_choice_tuples(modality_choices), max_length=200)
     diagnosis = models.CharField(choices=sort_choice_tuples(diagnosis_choices), max_length=200)
