@@ -14,3 +14,9 @@ def test_basic_smoke_test():
     assert '?gender' in result
     assert '?diagnosis' in result
     assert '?image' in result
+
+
+# TODO:
+# - add tests for query generator
+# - add tests for query processor (with mocking)
+# - add test for dataset aggregator
