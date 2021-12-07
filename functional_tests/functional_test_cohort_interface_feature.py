@@ -16,6 +16,7 @@ def driver():
     driver.quit()
 
 
+@pytest.mark.django_db
 def test_user_can_run_an_empty_cohort_query(driver, live_server):
     # TODO: find a better way to assert the location of elements (left / right)
 
