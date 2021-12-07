@@ -54,7 +54,7 @@ for line in DEFAULT_CONTEXT.splitlines():
 default_context_inverse_map = {v: k for k, v in default_context_map.items()}
 
 DOG_ROOT = 'http://star.braindog.net'
-DOG_DB = 'demo_integration'
+DOG_DB = 'integration_layer'
 DOG_PORT = 5820
 QUERY_URL = f'{DOG_ROOT}:{DOG_PORT}/{DOG_DB}/query'
 QUERY_HEADER = {'Content-Type': 'application/sparql-query', 'Accept': 'application/sparql-results+json'}
