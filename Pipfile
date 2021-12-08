@@ -14,6 +14,8 @@ pandas = "*"
 pytest = "*"
 pytest-django = "*"
 pytest-cov = "*"
+selenium = "*"
+coverage = "<5"
 
 [requires]
 python_version = "3.9"

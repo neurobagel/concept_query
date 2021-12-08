@@ -1,0 +1,3 @@
+[run]
+source = cohort_definition, query, query_interface
+omit = **/*test*/*, **/migrations/*
