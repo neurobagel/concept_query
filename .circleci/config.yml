@@ -1,7 +1,12 @@
 version: 2.1
 orbs: 
   docker: circleci/docker@2.0.1
-
+workflows:
+  build-docker-image-only:
+    jobs:
+      - docker/publish:
+          image: metaneuro/concept_query
+          update-description: true
 jobs:
   build:
     docker:
