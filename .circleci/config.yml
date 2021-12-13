@@ -28,12 +28,12 @@ jobs:
           key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
           paths:
             - "venv"
-      - run:
-          name: MakeMigrations
-          command: python3 manage.py makemigrations
-      - run:
-          name: Migrate
-          command: python3 manage.py migrate
+      # - run:
+      #     name: MakeMigrations
+      #     command: python3 manage.py makemigrations
+      # - run:
+      #     name: Migrate
+      #     command: python3 manage.py migrate
       - run:
           name: Running tests
           command: |
