@@ -1,14 +1,10 @@
 version: 2.1
-orbs: 
-  docker: circleci/docker@2.0.1
-workflows:
-  build-docker-image-only:
-    jobs:
-      - docker/publish:
-          image: metaneuro/concept_query
-          deploy: false
+
+# orbs: 
+#   docker: circleci/docker@2.0.1
+
 jobs:
-  build:
+  build-and-test:
     docker:
       - image: cimg/python:3.9.8
     steps:
@@ -32,3 +28,14 @@ jobs:
       - store_artifacts:
           path: test-reports/
           destination: python_app
+          
+
+# workflows:
+#   build-docker-image-only:
+#     jobs:
+#       - docker/publish:
+#           image: metaneuro/concept_query
+#           deploy: false
+
+# - store_test_results:
+#    path: test-results
