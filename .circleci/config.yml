@@ -5,7 +5,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/python:3.9.8
+      - image: cimg/python:3.9.8-browsers
     steps:
       - checkout
       - setup_remote_docker
