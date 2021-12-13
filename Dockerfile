@@ -22,8 +22,5 @@ RUN python manage.py migrate
 # This should be done by developers during commit and not during container setup
 # RUN python manage.py collectstatic
 
-# Run tests
-RUN pytest
-
 # Start Django server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:9000"]
