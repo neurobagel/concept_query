@@ -5,7 +5,7 @@ jobs:
 
   build:
     docker:
-      - image: cimg/python:3.9.8
+      - image: cimg/python:3.9
     steps:
       - checkout
       - setup_remote_docker
@@ -48,7 +48,6 @@ jobs:
             python3 manage.py makemigrations
             python3 manage.py migrate
             pytest
-            pytest functional_tests/functional_test_cohort_interface_feature.py
       - store_artifacts:
           path: test-reports/
           destination: concept_query
