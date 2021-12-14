@@ -1,0 +1,10 @@
+django
+requests
+django-crispy-forms
+crispy-bootstrap5
+pandas
+pytest
+pytest-django
+pytest-cov
+selenium
+coverage
