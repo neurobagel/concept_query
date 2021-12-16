@@ -103,7 +103,7 @@ def get_query_results(p_form):
 
 
 # Views
-def formgenerated_query(request):
+def query_form(request):
     # TODO: add docstring
     # - generates the blank interface
     # - generates the results view once a response is coming in from the graph
