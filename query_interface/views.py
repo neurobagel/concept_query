@@ -39,9 +39,9 @@ def filtered_query_results(p_filtered_data, p_query_results):
 
     # 2. Quickly construct a choices dictionary
     choices = {
-        # TODO: replace siri with diagnosis here.
+		
         "gender": {choice[0]: choice[1] for choice in gender_choices},
-        "siri": {choice[0]: choice[1] for choice in diagnosis_choices},
+		"diagnosis": {choice[0]: choice[1] for choice in diagnosis_choices},
         "image": {choice[0]: choice[1] for choice in modality_choices},
         "is_control": {choice[0]: choice[1] for choice in is_control_choices}
     }
@@ -56,11 +56,10 @@ def filtered_query_results(p_filtered_data, p_query_results):
             result_row = [
                 result["dataset_id"],
                 "\"" + result["title"] + "\"",
-                str(len(csv_data)),
-                # result["age"],
+				result["siri"]
             ]
 
-            # TODO: Temp fix for results with no age field, replace
+            # II. Make sure age exists for each result before adding
             result_row.append("" if "age" not in result else result["age"])
 
             # II. Save extra field values if present in the subject data
