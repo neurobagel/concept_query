@@ -19,6 +19,13 @@ jobs:
           paths:
             - "venv"
       - run:
+          name: Install and start geckodriver
+          command: |
+            wget https://github.com/mozilla/geckodriver/releases/download/v0.26.0/geckodriver-v0.26.0-linux64.tar.gz &&
+            tar -xvzf geckodriver* &&
+            chmod +x geckodriver &&
+            sudo mv geckodriver /usr/local/bin
+      - run:
           name: Migrate django db and run tests
           command: |
             . venv/bin/activate
