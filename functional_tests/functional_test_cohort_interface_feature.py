@@ -22,7 +22,7 @@ def test_user_can_run_an_empty_cohort_query(driver, live_server):
 
     # I am a new user and want to check out the cohort definition tool
     # I navigate to the cohort_definition URL
-    driver.get(live_server.url + '/query_interface/form')
+    driver.get(live_server.url)
 
     # On the page, I see that the title of the app is "Cohort Definition Tool"
     assert driver.title == 'Cohort Definition Tool'
