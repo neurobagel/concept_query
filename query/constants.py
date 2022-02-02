@@ -53,7 +53,7 @@ for line in DEFAULT_CONTEXT.splitlines():
 
 default_context_inverse_map = {v: k for k, v in default_context_map.items()}
 
-DOG_ROOT = 'http://star.braindog.net'
+DOG_ROOT = 'http://206.12.99.17'
 DOG_DB = 'integration_layer'
 DOG_PORT = 5820
 QUERY_URL = f'{DOG_ROOT}:{DOG_PORT}/{DOG_DB}/query'
